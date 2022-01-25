@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 import api from "../../services/api";
-import history from '../../history';
+import history from "../../history";
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     if (token) {
       api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
@@ -16,24 +16,29 @@ export default function useAuth() {
     }
 
     setLoading(false);
-  }, [])
+  }, []);
 
   async function handleLogin() {
-    const { data: { token } } = await api.post('/login');
+    const {
+      data: { token },
+    } = await api.post("/login");
 
-    localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem("token", JSON.stringify(token));
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setAuthenticated(true);
-    history.push('/users');
+    history.push("/users");
   }
 
-  function handleLogout() {
+  async function handleLogout() {
+    const {
+      data: { token },
+    } = await api.post("/logout");
+
     setAuthenticated(false);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token", JSON.stringify(token));
     api.defaults.headers.Authorization = undefined;
-    history.push('/');
+    history.push("/");
   }
 
   return { authenticated, loading, handleLogin, handleLogout };
-
 }
