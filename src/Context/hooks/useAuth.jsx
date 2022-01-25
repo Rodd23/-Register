@@ -11,32 +11,26 @@ export default function useAuth() {
     const token = localStorage.getItem("token");
 
     if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+      api.defaults.headers.Authorization = `${JSON.parse(token)}`;
       setAuthenticated(true);
     }
 
     setLoading(false);
   }, []);
 
-  async function handleLogin() {
-    const {
-      data: { token },
-    } = await api.post("/login");
-
+  async function handleLogin({ token }) {
+    
     localStorage.setItem("token", JSON.stringify(token));
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    api.defaults.headers.Authorization = `${token}`;
     setAuthenticated(true);
     history.push("/users");
   }
 
   async function handleLogout() {
-    const {
-      data: { token },
-    } = await api.post("/logout");
-
     setAuthenticated(false);
-    localStorage.removeItem("token", JSON.stringify(token));
+    localStorage.removeItem("token");
     api.defaults.headers.Authorization = undefined;
+    await api.post("/logout");
     history.push("/");
   }
 
