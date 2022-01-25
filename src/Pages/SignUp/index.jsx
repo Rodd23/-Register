@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import history from '../../history';
 import {
   Button,
   Container,
@@ -12,8 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
 
-export const SingnUp = () => {
-  const navigate = useNavigate();
+export default function SingnUp() {
 
   const [user, setUser] = useState({
     email: "",
@@ -39,7 +38,7 @@ export const SingnUp = () => {
           error:
             "Erro ao cadastrar. Verifique suas credenciais e tente de novo.",
         });
-        setTimeout(() => navigate("/"), 5000);
+        setTimeout(() => history.push('/'), 5000);
       } catch (err) {
         const error = err.response.data.error;
 

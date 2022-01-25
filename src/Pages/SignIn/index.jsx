@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Container,
@@ -11,20 +10,10 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
-import StoreContext from "../../components/Store/Context";
+import { Context } from "../../Context/AuthContext";
 
-export const SignIn = () => {
-  const navigate = useNavigate();
-
-  const { setToken } = useContext(StoreContext);
-
-  /*function login ({ email, password }) {
-      if(email === "admin@email" && password === 'admin') {
-          return { token: '1234'};
-      } else {
-          return { error: "Usuário ou senha inválida"};
-      }
-  }*/
+export default function SignIn() {
+  const { handleLogin } = useContext(Context);
 
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -47,13 +36,8 @@ export const SignIn = () => {
             "Erro ao realizar login. Tente novamente.",
         });
 
-        const { token } = response.data;
-
-        if(token) {
-            setToken(token);
-            return navigate("/dashboard");
-        }
-
+        handleLogin(response.data)
+        
         setUserLogin({email: '', password: ''})
     }
   };
