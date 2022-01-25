@@ -35,8 +35,8 @@ export default function SignIn() {
           error:
             "Erro ao realizar login. Tente novamente.",
         });
-
-        handleLogin(response.data)
+        //console.log((await response).data)
+        handleLogin((await response).data.token)
         
         setUserLogin({email: '', password: ''})
     }

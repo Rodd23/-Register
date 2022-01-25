@@ -11,14 +11,14 @@ export default function useAuth() {
     const token = localStorage.getItem("token");
 
     if (token) {
-      api.defaults.headers.Authorization = `${JSON.parse(token)}`;
+      api.defaults.headers.Authorization = `${token}`;
       setAuthenticated(true);
     }
 
     setLoading(false);
   }, []);
 
-  async function handleLogin({ token }) {
+  async function handleLogin(token) {
     
     localStorage.setItem("token", JSON.stringify(token));
     api.defaults.headers.Authorization = `${token}`;
