@@ -6,7 +6,7 @@ import SignIn from "./Pages/SignIn"
 import Dashboard from "./Pages/Dashboard";
 
 
-import { isAuthenticated } from "./Context/hooks/useAuth"; 
+import { isAuthenticated } from "./services/auth"; 
 
 const PrivateRoute = ({ component: Component, ...rest}) => (
   <Route
@@ -26,9 +26,9 @@ export default function Routes() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={SignIn} />
-        <PrivateRoute exact isPrivate path="/dashboard" component={Dashboard} />
-        <PrivateRoute exact isPrivate path="/users" component={Users} />
-        <Route exact  path="*" component={ErrorPage} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/users" component={Users} />
+        <Route exact path="*" component={ErrorPage} />
       </Switch>
     </BrowserRouter>
     

@@ -8,10 +8,10 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
-import { handleLogin } from "../../Context/hooks/useAuth";
-import history from "../../history";
+import { login } from "../../services/auth";
+//import history from "../../history";
 
-export default function SignIn() {
+export default function SignIn(props) {
   
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -34,9 +34,10 @@ export default function SignIn() {
             "Erro ao realizar login. Tente novamente.",
         });
         //console.log((await response).data)
-        handleLogin(response.data)
+        login(response.data)
 
-        history.push("/dashboard");
+        props.history.push("/dashboard");
+        props.history.go();
 
         
         setUserLogin({email: '', password: ''})

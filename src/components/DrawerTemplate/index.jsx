@@ -16,8 +16,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from "react-router-dom";
 import React from "react";
-import { useSession } from "../../Context/AuthContext";
-import { handleLogout } from "../../Context/hooks/useAuth";
+import { logout } from "../../services/auth";
+import { useSession } from "../../providers/userSession";
 
 const drawerWidth = 240;
 
@@ -68,7 +68,6 @@ function DrawerTemplate (props) {
           </NavLink>
           
           {user.admin === true ? (
-            <>
             <NavLink
               to="/users"
               style={{
@@ -84,17 +83,15 @@ function DrawerTemplate (props) {
                 <ListItemText primary="Usuários"/>
               </ListItem>
             </NavLink>
-            </>
           ) : (
             ""
           )}
-          
         </List>
         <Divider />
         <List>
           <NavLink
             to="/"
-            onClick={handleLogout}
+            onClick={logout}
             style={{
               fontSize: "1.3rem",
               textDecoration: "none",
