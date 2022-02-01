@@ -21,12 +21,20 @@ export default function useAuth() {
     setUser({});
   }, []);
 
-  async function handleLogin(token) {
+  async function handleLogin({ token, user }) {
     
     localStorage.setItem("token", JSON.stringify(token));
+
+    const userData = user;
+    
+    for( const key of Object.keys(userData)) {
+      localStorage.setItem(key, userData[key]);
+    }
+
     api.defaults.headers.Authorization = `${token}`;
     setAuthenticated(true);
     history.push("/dashboard");
+
   }
 
   async function handleLogout() {
