@@ -3,8 +3,6 @@ import {
   Button,
   Container,
   TextField,
-  Grid,
-  Link,
   Typography,
 } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
@@ -35,7 +33,7 @@ export default function SignIn() {
           error:
             "Erro ao realizar login. Tente novamente.",
         });
-        //console.log((await response).data)
+        console.log((await response).data)
         handleLogin((await response).data.token)
         
         setUserLogin({email: '', password: ''})
@@ -77,18 +75,10 @@ export default function SignIn() {
           }}
         />
 
-        <Grid mt={1} container spacing={1}>
-          <Grid item xs={6} md={4}>
-            <Button type="submit" variant="contained" color="primary">
-              Entrar
-            </Button>
-          </Grid>
-          <Grid item xs={6} md={8}>
-            <Link href="/signup" underline="none">
-                Não possui Cadastro? Então faça o cadastro
-            </Link>
-          </Grid>
-        </Grid>
+        <Button type="submit" variant="contained" color="primary">
+          Entrar
+        </Button>
+         
       </form>
       <ToastContainer />
     </Container>

@@ -4,10 +4,10 @@ import useAuth from './hooks/useAuth';
 const Context = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const { loading, authenticated, handleLogin, handleLogout } = useAuth();
+  const { loading, user, authenticated, handleLogin, handleLogout } = useAuth();
   
   return (
-    <Context.Provider value={{ loading, authenticated, handleLogin, handleLogout }}>
+    <Context.Provider value={{ loading, user, authenticated, handleLogin, handleLogout }}>
       {children}
     </Context.Provider>
   );

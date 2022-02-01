@@ -6,6 +6,7 @@ import history from "../../history";
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -13,9 +14,11 @@ export default function useAuth() {
     if (token) {
       api.defaults.headers.Authorization = `${token}`;
       setAuthenticated(true);
+      setUser({...localStorage});
     }
 
     setLoading(false);
+    setUser({});
   }, []);
 
   async function handleLogin(token) {
@@ -23,7 +26,7 @@ export default function useAuth() {
     localStorage.setItem("token", JSON.stringify(token));
     api.defaults.headers.Authorization = `${token}`;
     setAuthenticated(true);
-    history.push("/users");
+    history.push("/dashboard");
   }
 
   async function handleLogout() {
@@ -34,5 +37,5 @@ export default function useAuth() {
     history.push("/");
   }
 
-  return { authenticated, loading, handleLogin, handleLogout };
+  return { authenticated, loading, user, handleLogin, handleLogout };
 }

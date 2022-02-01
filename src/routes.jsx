@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Users from "./Pages/Users";
 import ErrorPage from "./Pages/ErrorPage";
 import SignIn from "./Pages/SignIn"
-import SingnUp from "./Pages/SignUp";
+import Dashboard from "./Pages/Dashboard";
 
 import { Context } from './Context/AuthContext'
 
@@ -26,7 +26,7 @@ export default function Routes() {
   return (
     <Switch>
         <Route exact path="/" component={SignIn} />
-        <Route exact path="/signup" component={SingnUp} />
+        <CustomRoute exact isPrivate path="/dashboard" component={Dashboard} />
         <CustomRoute exact isPrivate path="/users" component={Users} />
         <Route exact  path="*" component={ErrorPage} />
     </Switch>
