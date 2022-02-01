@@ -1,35 +1,37 @@
-import React, { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React from "react";
+import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import Users from "./Pages/Users";
 import ErrorPage from "./Pages/ErrorPage";
 import SignIn from "./Pages/SignIn"
 import Dashboard from "./Pages/Dashboard";
 
-import { Context } from './Context/AuthContext'
 
-function CustomRoute({ isPrivate, ...rest}) {
-  const { loading, authenticated } = useContext(Context);
+import { isAuthenticated } from "./Context/hooks/useAuth"; 
 
-  if (loading) {
-    return <h1>Loading...</h1>
-  }
-
-
-  if (isPrivate && !authenticated) {
-    return <Redirect to="/" />
-  }
-
-  return <Route { ...rest} />;
-}
+const PrivateRoute = ({ component: Component, ...rest}) => (
+  <Route
+    {...rest}
+    render={(props) => 
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+      )
+    }
+  />
+);
 
 export default function Routes() {
   return (
-    <Switch>
+    <BrowserRouter>
+      <Switch>
         <Route exact path="/" component={SignIn} />
-        <CustomRoute exact isPrivate path="/dashboard" component={Dashboard} />
-        <CustomRoute exact isPrivate path="/users" component={Users} />
+        <PrivateRoute exact isPrivate path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact isPrivate path="/users" component={Users} />
         <Route exact  path="*" component={ErrorPage} />
-    </Switch>
+      </Switch>
+    </BrowserRouter>
+    
   );
 };
 

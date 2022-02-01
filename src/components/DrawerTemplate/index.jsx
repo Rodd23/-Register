@@ -15,13 +15,14 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from "react-router-dom";
-import React, { useContext } from "react";
-import { Context } from "../../Context/AuthContext";
+import React from "react";
+import { useSession } from "../../Context/AuthContext";
+import { handleLogout } from "../../Context/hooks/useAuth";
 
 const drawerWidth = 240;
 
 function DrawerTemplate (props) {
-  const { handleLogout, user } = useContext(Context);
+  const { user } = useSession();
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />

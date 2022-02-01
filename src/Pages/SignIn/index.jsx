@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -8,11 +8,11 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
-import { Context } from "../../Context/AuthContext";
+import { handleLogin } from "../../Context/hooks/useAuth";
+import history from "../../history";
 
 export default function SignIn() {
-  const { handleLogin } = useContext(Context);
-
+  
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
@@ -27,14 +27,17 @@ export default function SignIn() {
       toast.error("Preencha o E-MAIL e SENHA");
     } else {
         const data = { ...userLogin };
-        const response = toast.promise(api.post("/login", data), {
+        const response = await toast.promise(api.post("/login", data), {
           pending: "Entrando...🏃‍♂️",
           success: "Logado com sucesso",
           error:
             "Erro ao realizar login. Tente novamente.",
         });
-        console.log((await response).data)
-        handleLogin((await response).data.token)
+        //console.log((await response).data)
+        handleLogin(response.data)
+
+        history.push("/dashboard");
+
         
         setUserLogin({email: '', password: ''})
     }

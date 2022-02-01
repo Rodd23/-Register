@@ -8,10 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import api from "../../services/api";
 
-function createData(id, name, lastName) {
-  return { id, name, lastName};
-}
-
 export default function AcccessibleTable() {
 
     const [users, setUsers] = useState([])

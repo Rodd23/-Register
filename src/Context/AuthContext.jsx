@@ -1,16 +1,22 @@
-import React, { createContext } from "react";
-import useAuth from './hooks/useAuth';
+import React, { useEffect, useState, createContext, useContext } from "react";
 
-const Context = createContext({});
+export const SessionContext = createContext({})
 
-const AuthProvider = ({ children }) => {
-  const { loading, user, authenticated, handleLogin, handleLogout } = useAuth();
+export function SessionProvider (props) {
+  const [user, setUser] = useState({});
   
+  useEffect(() => {
+    const userToken = localStorage.getItem("@teste-Token");
+
+    if(userToken) setUser({ ...localStorage });
+    else setUser({})
+  }, [])
+
   return (
-    <Context.Provider value={{ loading, user, authenticated, handleLogin, handleLogout }}>
-      {children}
-    </Context.Provider>
+    <SessionContext.Provider value={{ user, setUser }}>
+      {props.children}
+    </SessionContext.Provider>
   );
 };
 
-export { Context, AuthProvider }
+export const useSession = () => useContext(SessionContext);
