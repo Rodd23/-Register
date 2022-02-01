@@ -13,7 +13,9 @@ export const login = ({ token, user }) => {
     localStorage.setItem(key, userData[key]);
   }
 };
-export const logout = async() => {
+export const logout = async(props) => {
   localStorage.clear();
   await api.post("/logout");
+  props.history.push("/");
+  props.history.go();
 };
