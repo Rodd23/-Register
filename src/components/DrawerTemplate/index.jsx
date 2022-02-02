@@ -67,7 +67,7 @@ function DrawerTemplate (props) {
               </ListItem>
           </NavLink>
           
-          {user.admin === true ? (
+          {user.admin === 1 ? (
             <NavLink
               to="/users"
               style={{
