@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import api from "../../services/api";
 
-export default function AcccessibleTable() {
+export default function DataTable() {
 
     const [users, setUsers] = useState([])
 

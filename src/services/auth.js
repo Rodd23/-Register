@@ -1,12 +1,14 @@
 import api from "./api";
 
-export const TOKEN_KEY = "@token";
+export const TOKEN_KEY = "token";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 export const login = ({ token, user }) => {
-  if (token) localStorage.setItem(TOKEN_KEY, token);
-
+  if (token) {
+    localStorage.setItem(TOKEN_KEY, token);
+    api.defaults.headers.Authorization = `${token}`;
+  }
   const userData = user;
 
   for (const key of Object.keys(userData)) {

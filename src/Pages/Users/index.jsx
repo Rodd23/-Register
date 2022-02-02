@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "../../components/DataTable";
 
-export default function Users() {
+export default function Users(props) {
 
   const [users, setUsers] = useState({
     email: "",

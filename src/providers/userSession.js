@@ -6,7 +6,7 @@ export function SessionProvider(props) {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const userToken = localStorage.getItem("@token");
+    const userToken = localStorage.getItem("token");
 
     if (userToken) setUser({ ...localStorage });
     else setUser({});
