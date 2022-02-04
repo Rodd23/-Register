@@ -16,26 +16,23 @@ import DataTable from "../../components/DataTable";
 
 export default function Users(props) {
 
-  const [users, setUsers] = useState({
-    email: "",
-    name: "",
-    lastName: "",
-    password: "",
-    confirmPassword: "",
-    admin: false,
-  });
-
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [admin, setAdmin] = useState(false);
+ 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    const { email, name, lastName, password, confirmPassword } = users;
+    const users = { email, name, lastname, password, confirmpassword }
 
-    if (!email || !name || !lastName || !password || !confirmPassword) {
+    if (!users) {
       toast.error("Por favor, preencha todos os campos para se cadastrar!");
     } else {
       try {
-        const data = { ...users };
-        await toast.promise(api.post("/signup", data), {
+        await toast.promise(api.post("/signup", users), {
           pending: "Cadastrando novo usuário...",
           success: "Cadastrado com sucesso! Redirecionando para o login...",
           error:
@@ -53,9 +50,9 @@ export default function Users(props) {
     e.preventDefault();
 
     
-    const { email, name, lastName, password, confirmPassword } = users;
+    const users = { email, name, lastname, password, confirmpassword };
 
-    if (!email || !name || !lastName || !password || !confirmPassword) {
+    if (!users) {
       toast.error("Por favor, preencha todos os campos para excluir o usuário!");
     } else {
       try {
@@ -98,9 +95,9 @@ export default function Users(props) {
               required
               id="email"
               label="E-mail"
-              value={users.email}
+              value={email}
               onChange={(e) => {
-                setUsers((prev) => ({ ...prev, email: e.target.value }));
+                setEmail(e.target.value);
               }}
               type="email"
               variant="outlined"
@@ -111,9 +108,9 @@ export default function Users(props) {
               required
               id="name"
               label="Nome"
-              value={users.name}
+              value={name}
               onChange={(e) => {
-                setUsers((prev) => ({ ...prev, name: e.target.value }));
+                setName(e.target.value);
               }}
               type="text"
               variant="outlined"
@@ -124,9 +121,9 @@ export default function Users(props) {
               required
               id="lastName"
               label="Sobrenome"
-              value={users.lastName}
+              value={lastname}
               onChange={(e) => {
-                setUsers((prev) => ({ ...prev, lastName: e.target.value }));
+                setLastname(e.target.value);
               }}
               type="text"
               variant="outlined"
@@ -137,10 +134,10 @@ export default function Users(props) {
               required
               id="password"
               label="Senha"
+              value={password}
               onChange={(e) => {
-                  setUsers((prev) => ({ ...prev, password: e.target.value }));
+                  setPassword(e.target.value);
               }}
-              value={users.password}
               type="password"
               variant="outlined"
               autoComplete="current-password"
@@ -151,9 +148,9 @@ export default function Users(props) {
               required
               id="confirmPassword"
               label="Repita a Senha"
-              value={users.confirmPassawod}
+              value={confirmpassword}
               onChange={(e) => {
-                  setUsers((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                  setConfirmPassword(e.target.value)
               }}
               type="password"
               variant="outlined"
@@ -165,9 +162,9 @@ export default function Users(props) {
               sx={{ ml: 2, mt: 2 }}
               control={<Checkbox />}
               label="Admin"
-              checked={users.admin}
+              checked={admin}
               onChange={(e) => {
-                  setUsers((prev) => ({ ...prev, admin:  e.target.checked }))
+                  setAdmin(e.target.checked)
               }}
             />
 

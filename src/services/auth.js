@@ -6,8 +6,7 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 export const login = ({ token, user }) => {
   if (token) {
-    localStorage.setItem(TOKEN_KEY, token);
-    api.defaults.headers.Authorization = `${token}`;
+    localStorage.setItem(TOKEN_KEY, token); 
   }
   const userData = user;
 
