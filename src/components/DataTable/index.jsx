@@ -6,20 +6,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import api from "../../services/api";
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth';
+import api from '../../services/api';
+import io from "socket.io-client";
+
+const dataUsers = [];
+
+const socket = io('http://localhost:3001');
+
+socket.on("users/signup", (data) => {
+  dataUsers.push(data)
+})
+
 
 export default function DataTable() {
 
-    const [users, setUsers] = useState([])
+  const { user } = useContext(AuthContext) 
+  const [users, setUsers] = useState([])
 
-    useEffect(() => {
-        (async () => {
-          const { data } = await api.get("/users");
-    
-          setUsers(data);
-        })();
-      }, []);
+  useEffect(() => {
+    setInterval(() => {
+      if(dataUsers.length > 0) {
+        setUsers(dataUsers)
+      }
+    }, 5000);
+  },[]);
 
+  useEffect(() => {
+    const data = api.get("users", {
+      headers: { 
+        authorization: api.defaults.headers.common.authorization = user.token
+      }
+    })
+    console.log(data)
+    setUsers(data)
+  },[user])
+  
   return (
     <TableContainer sx={{ width: 650}} component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="caption table">
@@ -32,14 +55,14 @@ export default function DataTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
+          {users.map((u) => (
+            <TableRow key={u.id}>
               <TableCell component="th" scope="row">
-                {user.id}
+                {u.id}
               </TableCell>
-              <TableCell align="left">{user.name}</TableCell>
-              <TableCell align="left">{user.lastName}</TableCell>
-              <TableCell align="left">{user.name + ' ' + user.lastName}</TableCell>
+              <TableCell align="left">{u.name}</TableCell>
+              <TableCell align="left">{u.lastname}</TableCell>
+              <TableCell align="left">{u.name + ' ' + u.lastname}</TableCell>
             </TableRow>
           ))}
         </TableBody>

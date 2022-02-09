@@ -15,14 +15,14 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from "react-router-dom";
-import React from "react";
-import { logout } from "../../services/auth";
-import { useSession } from "../../providers/userSession";
+import React, { useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
 
 const drawerWidth = 240;
 
 function DrawerTemplate (props) {
-  const { user } = useSession();
+  const { user, signOut } = useContext(AuthContext)
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -31,7 +31,7 @@ function DrawerTemplate (props) {
         sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
       >
         <Toolbar>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap>
             {props.title}
           </Typography>
         </Toolbar>
@@ -67,7 +67,7 @@ function DrawerTemplate (props) {
               </ListItem>
           </NavLink>
           
-          {user.admin === 1 ? (
+          {user.admin !== 0 ? (
             <NavLink
               to="/users"
               style={{
@@ -91,7 +91,7 @@ function DrawerTemplate (props) {
         <List>
           <NavLink
             to="/"
-            onClick={logout}
+            onClick={signOut}
             style={{
               fontSize: "1.3rem",
               textDecoration: "none",

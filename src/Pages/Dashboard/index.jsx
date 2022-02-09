@@ -5,7 +5,7 @@ import DrawerTemplate from "../../components/DrawerTemplate";
 export default function Dashboard(props) {
   return (
     <DrawerTemplate title="Dashboard">
-        <Typography mt={10} variant="h3" component="h1">
+        <Typography mt={10} component="h1" variant="h3">
             BEM-VINDO
         </Typography>
     </DrawerTemplate>

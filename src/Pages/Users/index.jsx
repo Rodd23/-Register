@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Container,
@@ -13,8 +13,11 @@ import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DataTable from "../../components/DataTable";
+import { AuthContext } from "../../contexts/auth";
 
-export default function Users(props) {
+export default function Users() {
+
+  const { user } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -23,16 +26,20 @@ export default function Users(props) {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [admin, setAdmin] = useState(false);
  
-  const handleSignUp = async (e) => {
+  async function handleSignUp(e) {
     e.preventDefault();
 
-    const users = { email, name, lastname, password, confirmpassword }
+    const users = { email, name, lastname, password, confirmpassword, admin }
 
     if (!users) {
       toast.error("Por favor, preencha todos os campos para se cadastrar!");
     } else {
       try {
-        await toast.promise(api.post("/signup", users), {
+        await toast.promise(api.post("/users/signup", users, {
+          headers: { 
+            authorization: api.defaults.headers.common.authorization = user.token
+          }
+        }), {
           pending: "Cadastrando novo usuário...",
           success: "Cadastrado com sucesso! Redirecionando para o login...",
           error:
@@ -43,6 +50,14 @@ export default function Users(props) {
 
         toast.error(error);
       }
+
+      setEmail('');
+      setName('');
+      setLastname('');
+      setPassword('');
+      setConfirmPassword('');
+      setAdmin(false);
+      
     }
   };
 
@@ -51,6 +66,7 @@ export default function Users(props) {
 
     
     const users = { email, name, lastname, password, confirmpassword };
+    console.log(users);
 
     if (!users) {
       toast.error("Por favor, preencha todos os campos para excluir o usuário!");
@@ -77,18 +93,17 @@ export default function Users(props) {
       <Container component="article" maxWidth="xl">
 
         <Box
-          component="form"
+          component="div"
           sx={{
             "& .MuiTextField-root": { m: 1, mt: 4, width: "50ch" },
           }}
         >
-
           <form
-            onSubmit={handleSignUp}
             style={{
               display: "flex",
               flexWrap: "wrap",
             }}
+          onSubmit={handleSignUp}
           >
 
             <TextField
@@ -198,7 +213,6 @@ export default function Users(props) {
             </Button>
 
           </form>
-
         </Box>
 
         <ToastContainer />

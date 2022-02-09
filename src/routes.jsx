@@ -6,7 +6,7 @@ import SignIn from "./Pages/SignIn"
 import Dashboard from "./Pages/Dashboard";
 
 
-import { isAuthenticated } from "./services/auth"; 
+import { isAuthenticated } from "./contexts/auth";
 
 const PrivateRoute = ({ component: Component, ...rest}) => (
   <Route

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Container,
@@ -8,10 +8,12 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import api from "../../services/api";
-import { login } from "../../services/auth";
+import { AuthContext } from "../../contexts/auth";
 //import history from "../../history";
 
 export default function SignIn(props) {
+
+  const { signIn } = useContext(AuthContext)
   
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -34,7 +36,7 @@ export default function SignIn(props) {
             "Erro ao realizar login. Tente novamente.",
         });
         //console.log((await response).data)
-        login(response.data)
+        signIn(response.data)
 
         props.history.push("/dashboard");
         props.history.go();
