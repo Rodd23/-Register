@@ -219,7 +219,7 @@ export default function Users() {
 
       </Container>
 
-      <Container style={{ marginTop: "40px" }} component="table" maxWidth="md">
+      <Container style={{ marginTop: "40px" }} component="div" maxWidth="md">
 
         <DataTable />
 

@@ -6,46 +6,41 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/auth';
+//import { useContext } from 'react';
+//import { AuthContext } from '../../contexts/auth';
 import api from '../../services/api';
 import io from "socket.io-client";
 
-const dataUsers = [];
+//const dataUsers = [];
 
 const socket = io('http://localhost:3001');
 
-socket.on("users/signup", (data) => {
-  dataUsers.push(data)
+socket.on('new_user', data => {
+  console.log(data)
 })
 
 
 export default function DataTable() {
 
-  const { user } = useContext(AuthContext) 
+  //const { user } = useContext(AuthContext) 
   const [users, setUsers] = useState([])
 
-  useEffect(() => {
+  /*useEffect(() => {
     setInterval(() => {
-      if(dataUsers.length > 0) {
-        setUsers(dataUsers)
-      }
+      setUsers(dataUsers)
     }, 5000);
-  },[]);
+  }, []);*/
 
   useEffect(() => {
-    const data = api.get("users", {
-      headers: { 
-        authorization: api.defaults.headers.common.authorization = user.token
-      }
-    })
-    console.log(data)
-    setUsers(data)
-  },[user])
+    async function getUser(){
+    const response = await api.get("users")
+    setUsers(response.data)
+  }getUser()
+  },[])
   
   return (
     <TableContainer sx={{ width: 650}} component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="caption table">
+      <Table sx={{ minWidth: 650 }} aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>

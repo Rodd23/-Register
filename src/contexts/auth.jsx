@@ -36,8 +36,6 @@ export function AuthProvider(props) {
     await api.post("logout");
   }
 
-
-
   useEffect(() => {
     const token = localStorage.getItem("token");
 
