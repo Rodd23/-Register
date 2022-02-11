@@ -11,12 +11,12 @@ import Paper from '@mui/material/Paper';
 import api from '../../services/api';
 import io from "socket.io-client";
 
-//const dataUsers = [];
+const dataUsers = [];
 
 const socket = io('http://localhost:3001');
 
 socket.on('new_user', data => {
-  console.log(data)
+  dataUsers.push(data)
 })
 
 
@@ -25,11 +25,19 @@ export default function DataTable() {
   //const { user } = useContext(AuthContext) 
   const [users, setUsers] = useState([])
 
-  /*useEffect(() => {
+  useEffect(() => {
     setInterval(() => {
-      setUsers(dataUsers)
-    }, 5000);
-  }, []);*/
+      if (dataUsers.length > 0) {
+        setUsers(prevState =>[
+          ...prevState,
+          dataUsers[0],
+          dataUsers[1],
+        ].filter(Boolean))
+
+        dataUsers.shift()
+      }
+    }, 10000);
+  }, []);
 
   useEffect(() => {
     async function getUser(){
@@ -52,9 +60,7 @@ export default function DataTable() {
         <TableBody>
           {users.map((u) => (
             <TableRow key={u.id}>
-              <TableCell component="th" scope="row">
-                {u.id}
-              </TableCell>
+              <TableCell align="left">{u.id}</TableCell>
               <TableCell align="left">{u.name}</TableCell>
               <TableCell align="left">{u.lastname}</TableCell>
               <TableCell align="left">{u.name + ' ' + u.lastname}</TableCell>

@@ -41,7 +41,7 @@ export default function Users() {
           }
         }), {
           pending: "Cadastrando novo usuário...",
-          success: "Cadastrado com sucesso! Redirecionando para o login...",
+          success: "Cadastrado com sucesso!",
           error:
             "Erro ao cadastrar. Verifique suas credenciais e tente de novo.",
         });
